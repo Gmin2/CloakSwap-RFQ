@@ -1,0 +1,24 @@
+{
+  "name": "cloakswap-relayer",
+  "version": "1.0.0",
+  "description": "Cross-chain relayer for CloakSwap RFQ protocol",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc -p .",
+    "dev": "node --no-warnings --loader ts-node/esm src/index.ts",
+    "relayer:select": "node --no-warnings --loader ts-node/esm src/index.ts select",
+    "config": "node --no-warnings --loader ts-node/esm src/index.ts config"
+  },
+  "dependencies": {
+    "viem": "^2.21.32",
+    "zod": "^3.23.8",
+    "dotenv": "^16.4.5",
+    "commander": "^12.1.0"
+  },
+  "devDependencies": {
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.2",
+    "@types/node": "^24.3.0"
+  }
+}
