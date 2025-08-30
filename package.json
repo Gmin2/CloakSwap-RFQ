@@ -1,0 +1,40 @@
+{
+  "name": "cloakswap",
+  "version": "1.0.0",
+  "description": "Cross-chain RFQ protocol contracts for Lisk and Flare",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "compile": "hardhat compile",
+    "test": "hardhat test",
+    "lint": "echo \"(add your linter)\"",
+    "deploy:lisk": "hardhat run scripts/deploy-lisk.ts --network liskSepolia",
+    "deploy:flare": "hardhat run scripts/deploy-flare.ts --network coston2",
+    "wire:lisk": "hardhat run scripts/wire-lisk.ts --network liskSepolia",
+    "seed:lisk": "hardhat run scripts/seed-demo.ts --network liskSepolia",
+    "sanity:lisk": "hardhat run scripts/sanity-check.ts --network liskSepolia"
+  },
+  "keywords": [
+    "hardhat",
+    "ethereum",
+    "lisk",
+    "flare",
+    "rfq",
+    "cross-chain"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "@types/node": "^24.3.0",
+    "dotenv": "^17.2.1",
+    "hardhat": "^2.22.0",
+    "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.9.2"
+  },
+  "dependencies": {
+    "@flarenetwork/flare-periphery-contracts": "^0.1.36",
+    "@openzeppelin/contracts": "^5.4.0"
+  }
+}

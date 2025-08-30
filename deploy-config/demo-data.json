@@ -1,0 +1,10 @@
+{
+  "rfqId": 1,
+  "amountIn": "100000000000000000000",
+  "maxSlippageBps": 500,
+  "salt": "0xcdd082d10aa70b15ebdddc637c4b3c0af3506f614b48323ed6e517e68f2241ce",
+  "tokenA": "0x44b1f7F79C53e22f586375b5503FECe6B38a9c17",
+  "tokenB": "0xaB97f5A2Cb7F9C3A27aC0AA50690E1f2b65D3D79",
+  "expiry": 1756587614,
+  "commitment": "0x86be3b4ad03feafac315d230d384a898c762318b3e576d0bd379ac29e47a8cca"
+}
