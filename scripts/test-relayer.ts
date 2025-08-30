@@ -32,8 +32,12 @@ async function main() {
   );
   await commitTx.wait();
   
-  console.log('2. Revealing RFQ...');
-  const revealTx = await intentRegistry.revealRFQ(2, amountIn, maxSlippageBps, salt);
+  // Get the new RFQ ID
+  const nextId = await intentRegistry.nextRFQId();
+  const rfqId = Number(nextId) - 1; // Just created RFQ
+  
+  console.log(`2. Revealing RFQ ${rfqId}...`);
+  const revealTx = await intentRegistry.revealRFQ(rfqId, amountIn, maxSlippageBps, salt);
   await revealTx.wait();
   
   console.log('3. Adding quote...');
@@ -44,14 +48,14 @@ async function main() {
     [quoteOut, quoteSalt]
   ));
   
-  const commitQuoteTx = await quoteBook.commitQuote(2, quoteCommitment);
+  const commitQuoteTx = await quoteBook.commitQuote(rfqId, quoteCommitment);
   await commitQuoteTx.wait();
   
-  const revealQuoteTx = await quoteBook.revealQuote(2, quoteOut, quoteSalt);
+  const revealQuoteTx = await quoteBook.revealQuote(rfqId, quoteOut, quoteSalt);
   await revealQuoteTx.wait();
   
-  console.log('\n✅ RFQ 2 ready for relayer selection!');
-  console.log('Run: cd relayer-bot && pnpm relayer:select --rfq 2');
+  console.log(`\n✅ RFQ ${rfqId} ready for relayer selection!`);
+  console.log(`Run: cd relayer-bot && pnpm relayer:select --rfq ${rfqId}`);
 }
 
 main().catch(console.error);

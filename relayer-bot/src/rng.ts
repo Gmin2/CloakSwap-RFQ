@@ -37,27 +37,27 @@ export async function drawRng() {
       })
     );
     
-    const rngEvent = decodedLogs.find((log: any) => log.eventName === 'RngDrawn');
+    const rngEvent = decodedLogs.find((log: any) => log.eventName === 'RandomDrawTaken');
     
     if (rngEvent) {
-      const { value, isSecure, epochTimestamp } = (rngEvent as any).args;
+      const { randomNumber, isSecure, timestamp } = (rngEvent as any).args;
       
       log('success', 'RNG drawn', {
-        value: value.toString(),
+        value: randomNumber.toString(),
         isSecure,
-        epochTimestamp: epochTimestamp.toString(),
+        timestamp: timestamp.toString(),
         txHash: hash,
       });
       
       return {
-        value: BigInt(value),
+        value: BigInt(randomNumber),
         isSecure: Boolean(isSecure),
-        epochTimestamp: Number(epochTimestamp),
+        epochTimestamp: Number(timestamp),
         txHash: hash,
       };
     }
     
-    throw new Error('RngDrawn event not found');
+    throw new Error('RandomDrawTaken event not found');
     
   } catch (error) {
     log('error', 'Failed to draw RNG', error);

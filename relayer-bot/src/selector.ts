@@ -11,13 +11,11 @@ export async function selectBestQuote(rfqId: number, symbol?: string) {
   log('info', `Selecting best quote for RFQ ${rfqId}...`);
   
   try {
-    // TODO: replace mock
-    // Step 1: Take FTSO snapshot on Flare (using mock for demo)
-    const snapshot = await mockSnapshot(symbol);
+    // Step 1: Take FTSO snapshot on Flare (real oracle data)
+    const snapshot = await takeSnapshot(symbol);
     
-    // TODO: replace mock
-    // Step 2: Draw secure RNG on Flare (using mock for demo)
-    const rng = await mockRng();
+    // Step 2: Draw secure RNG on Flare (real randomness)
+    const rng = await drawRng();
     
     // Step 3: Validate RNG is secure
     if (!rng.isSecure) {

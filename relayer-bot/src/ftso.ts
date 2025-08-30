@@ -4,18 +4,28 @@ import { FTSO_READER_ABI } from './abis.js';
 import { cfg } from './config.js';
 import { log, explorerLink } from './logger.js';
 
+// Valid FTSO feed IDs on Coston2 (bytes21 format)
+const FEED_IDS = {
+  'FLR/USD': '0x01464c522f55534400000000000000000000000000',
+  'BTC/USD': '0x014254432f55534400000000000000000000000000', 
+  'ETH/USD': '0x014554482f55534400000000000000000000000000',
+  'XRP/USD': '0x015852502f55534400000000000000000000000000',
+  'ADA/USD': '0x014144412f55534400000000000000000000000000',
+} as const;
+
 export async function takeSnapshot(symbol: string = cfg.symbol) {
   log('info', `Taking FTSO snapshot for ${symbol}...`);
   
-  // Convert symbol to bytes21 (right-padded)
-  const symbol21 = padHex(stringToHex(symbol), { size: 21 });
+  // Use predefined feed ID or fallback to FLR/USD
+  const feedId = FEED_IDS[symbol as keyof typeof FEED_IDS] || FEED_IDS['FLR/USD'];
+  log('info', `Using feed ID: ${feedId} for ${symbol}`);
   
   try {
     const hash = await flareWal.writeContract({
       address: cfg.ftsoReader as `0x${string}`,
       abi: FTSO_READER_ABI,
       functionName: 'snapshot',
-      args: [symbol21],
+      args: [feedId as `0x${string}`],
       account: flareWal.account,
       chain: flareWal.chain,
     });
@@ -41,7 +51,7 @@ export async function takeSnapshot(symbol: string = cfg.symbol) {
       })
     );
     
-    const snapshotEvent = decodedLogs.find((log: any) => log.eventName === 'PriceSnapshotted');
+    const snapshotEvent = decodedLogs.find((log: any) => log.eventName === 'PriceSnapshotTaken');
     
     if (snapshotEvent) {
       const { snapshotId, feedId, price, timestamp } = (snapshotEvent as any).args;
